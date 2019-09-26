@@ -26,8 +26,14 @@ var templatePicture = document.querySelector('#picture');
 var templatePictureItem = templatePicture.content.querySelector('.picture');
 var pictureList = document.querySelector('.pictures');
 
+// Получаем массив с фотографиями и коментариями
+var completedPhotoList = getPictureList(PICTURES_COUNT);
+
+// Финальная отрисовка
+pictureList.appendChild(renderPictureList(completedPhotoList));
+
 // Генерация числа в заданном диапазоне, либо от 0 до указанного значения
-var randomNumber = function (max, min) {
+var randomNumber = function(max, min) {
   if (min === undefined) {
     min = 0;
   }
@@ -35,12 +41,12 @@ var randomNumber = function (max, min) {
 };
 
 // Получение случайного элемента из массива
-var getRandomArrElement = function (arr) {
+var getRandomArrElement = function(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 };
 
 // Генерируем объект комментария
-var getRandomComment = function () {
+var getRandomComment = function() {
   var tempObj = {
     avatar: 'img/avatar-' + randomNumber(6, 1) + '.svg',
     message: getRandomArrElement(AUTHOR_COMMENTS),
@@ -50,16 +56,17 @@ var getRandomComment = function () {
 };
 
 // Генерируем массив с указанным количеством комментариев
-var getCommentsList = function (commentsCount) {
+var getCommentsList = function(commentsCount) {
   var tempArray = [];
-  for (var i = 0; i < commentsCount; i++) {
+  //  for (var i = 0; i < commentsCount; i++) {
+  tempArray.forEach(function(item, i, arr) {
     tempArray.push(getRandomComment());
-  }
+  })
   return tempArray;
 };
 
 // Маппинг объекта фотографии
-var getRandomPictureItem = function (imgUrl, description, likesCount, comment) {
+var getRandomPictureItem = function(imgUrl, description, likesCount, comment) {
   var tempObj = {
     url: imgUrl,
     description: description,
@@ -70,9 +77,12 @@ var getRandomPictureItem = function (imgUrl, description, likesCount, comment) {
 };
 
 // Генерация массива из объектов фотографий
-var getPictureList = function (pictureCount) {
+var getPictureList = function(pictureCount) {
   var tempArray = [];
-  for (var i = 1; i <= pictureCount; i++) {
+  //  for (var i = 1; i <= pictureCount; i++)
+  tempArray.forEach(function(item, i, arr) {
+
+  }) {
     var pictureUrl = 'photos/' + i + '.jpg';
     var pictureDiscription = 'Описание фотографии';
     var likesCount = randomNumber(LIKES_COUNT_MAX, LIKES_COUNT_MIN);
@@ -83,7 +93,7 @@ var getPictureList = function (pictureCount) {
 };
 
 // Рендер DOM элемента на основе объекта
-var renderPicture = function (pictureItem) {
+var renderPicture = function(pictureItem) {
   var pictureElement = templatePictureItem.cloneNode(true);
   var pictureElementImg = pictureElement.querySelector('.picture__img');
 
@@ -96,16 +106,13 @@ var renderPicture = function (pictureItem) {
 };
 
 // Заполнение DOM элемента на основе массива
-var renderPictureList = function (photosArray) {
+var renderPictureList = function(photosArray) {
   var fragment = document.createDocumentFragment();
-  for (var i = 0; i < photosArray.length; i++) {
-    fragment.appendChild(renderPicture(photosArray[i]));
-  }
+  //  for (var i = 0; i < photosArray.length; i++) {
+  //  fragment.appendChild(renderPicture(photosArray[i]));
+  // }
+  tempArray.forEach(function(item, i, arr) {
+
+  });
   return fragment;
 };
-
-// Получаем массив с фотографиями и коментариями
-var completedPhotoList = getPictureList(PICTURES_COUNT);
-
-// Финальная отрисовка
-pictureList.appendChild(renderPictureList(completedPhotoList));
