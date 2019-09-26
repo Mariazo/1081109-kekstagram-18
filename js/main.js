@@ -82,7 +82,7 @@ var getPictureList = function(pictureCount) {
   //  for (var i = 1; i <= pictureCount; i++)
   tempArray.forEach(function(item, i, arr) {
 
-  }) {
+  })
     var pictureUrl = 'photos/' + i + '.jpg';
     var pictureDiscription = 'Описание фотографии';
     var likesCount = randomNumber(LIKES_COUNT_MAX, LIKES_COUNT_MIN);
