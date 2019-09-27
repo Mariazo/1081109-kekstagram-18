@@ -78,17 +78,16 @@ var getRandomPictureItem = function (imgUrl, description, likesCount, comment) {
 
 // Генерация массива из объектов фотографий
 var getPictureList = function (pictureCount) {
-  var tempArray = []{
+  var tempArray = []
   //  for (var i = 1; i <= pictureCount; i++)
   tempArray.forEach(function (item, i, arr) {
-
+    var pictureUrl = 'photos/' + i + '.jpg';
+    var pictureDiscription = 'Описание фотографии';
+    var likesCount = randomNumber(LIKES_COUNT_MAX, LIKES_COUNT_MIN);
+    var pictureComments = getCommentsList(randomNumber(2, 1));
+    tempArray.push(getRandomPictureItem(pictureUrl, pictureDiscription, likesCount, pictureComments));
   });
-  var pictureUrl = 'photos/' + i + '.jpg';
-  var pictureDiscription = 'Описание фотографии';
-  var likesCount = randomNumber(LIKES_COUNT_MAX, LIKES_COUNT_MIN);
-  var pictureComments = getCommentsList(randomNumber(2, 1));
-  tempArray.push(getRandomPictureItem(pictureUrl, pictureDiscription, likesCount, pictureComments));
-};
+
   return tempArray;
 };
 
