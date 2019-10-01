@@ -58,7 +58,7 @@ var getRandomComment = function () {
 // Генерируем массив с указанным количеством комментариев
 var getCommentsList = function (commentsCount) {
   var tempArray = [];
-  //  for (var i = 0; i < commentsCount; i++) {
+
   tempArray.forEach(function (item, i, arr) {
     tempArray.push(getRandomComment());
   });
@@ -79,16 +79,17 @@ var getRandomPictureItem = function (imgUrl, description, likesCount, comment) {
 // Генерация массива из объектов фотографий
 var getPictureList = function (pictureCount) {
   var tempArray = []
-  //  for (var i = 1; i <= pictureCount; i++)
+
   tempArray.forEach(function (item, i, arr) {
-    tempArray[i] {
+    tempArray[item];
+  };
       var pictureUrl = 'photos/' + i + '.jpg';
       var pictureDiscription = 'Описание фотографии';
       var likesCount = randomNumber(LIKES_COUNT_MAX, LIKES_COUNT_MIN);
       var pictureComments = getCommentsList(randomNumber(2, 1));
       tempArray.push(getRandomPictureItem(pictureUrl, pictureDiscription, likesCount, pictureComments));
-    };
-  };
+
+
   return tempArray;
 };
 
@@ -108,11 +109,9 @@ var renderPicture = function (pictureItem) {
 // Заполнение DOM элемента на основе массива
 var renderPictureList = function (photosArray) {
   var fragment = document.createDocumentFragment();
-  //  for (var i = 0; i < photosArray.length; i++) {
-  //  fragment.appendChild(renderPicture(photosArray[i]));
-  // }
-  tempArray.forEach(function (item, i, arr) {
 
+  tempArray.forEach(function (item, i, arr) {
+    fragment.appendChild(renderPicture(item));
   });
   return fragment;
 };
