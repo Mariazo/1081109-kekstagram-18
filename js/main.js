@@ -88,7 +88,7 @@ var getPictureList = function (pictureCount) {
       var likesCount = randomNumber(LIKES_COUNT_MAX, LIKES_COUNT_MIN);
       var pictureComments = getCommentsList(randomNumber(2, 1));
       tempArray.push(getRandomPictureItem(pictureUrl, pictureDiscription, likesCount, pictureComments));
-    )};
+    });
   return tempArray;
 };
 
