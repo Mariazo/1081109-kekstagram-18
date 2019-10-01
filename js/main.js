@@ -82,13 +82,13 @@ var getPictureList = function (pictureCount) {
 
   tempArray.forEach(function (item, i, arr) {
     tempArray[item];
-  )};
+
       var pictureUrl = 'photos/' + i + '.jpg';
       var pictureDiscription = 'Описание фотографии';
       var likesCount = randomNumber(LIKES_COUNT_MAX, LIKES_COUNT_MIN);
       var pictureComments = getCommentsList(randomNumber(2, 1));
       tempArray.push(getRandomPictureItem(pictureUrl, pictureDiscription, likesCount, pictureComments));
-
+    )};
   return tempArray;
 };
 
