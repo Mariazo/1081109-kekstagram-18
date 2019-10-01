@@ -81,7 +81,7 @@ var getPictureList = function (pictureCount) {
   var tempArray = []
 
   tempArray.forEach(function (item, i, arr) {
-    tempArray[item] {
+    tempArray[item]
       pictureUrl = 'photos/' + i + '.jpg';
       pictureDiscription = 'Описание фотографии';
       likesCount = randomNumber(LIKES_COUNT_MAX, LIKES_COUNT_MIN);
