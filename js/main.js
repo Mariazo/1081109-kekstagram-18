@@ -78,16 +78,16 @@ var getRandomPictureItem = function (imgUrl, description, likesCount, comment) {
 
 // Генерация массива из объектов фотографий
 var getPictureList = function (pictureCount) {
-  var tempArray = []
+  var tempArray = [];
 
   tempArray.forEach(function (item, i, arr) {
-    tempArray[item]
-      pictureUrl = 'photos/' + i + '.jpg';
-      pictureDiscription = 'Описание фотографии';
-      likesCount = randomNumber(LIKES_COUNT_MAX, LIKES_COUNT_MIN);
-      pictureComments = getCommentsList(randomNumber(2, 1));
-      tempArray.push(getRandomPictureItem(pictureUrl, pictureDiscription, likesCount, pictureComments));
-    });
+    tempArray[item];
+    pictureUrl = 'photos/' + i + '.jpg';
+    pictureDiscription = 'Описание фотографии';
+    likesCount = randomNumber(LIKES_COUNT_MAX, LIKES_COUNT_MIN);
+    pictureComments = getCommentsList(randomNumber(2, 1));
+    tempArray.push(getRandomPictureItem(pictureUrl, pictureDiscription, likesCount, pictureComments));
+  });
   return tempArray;
 };
 
@@ -108,7 +108,7 @@ var renderPicture = function (pictureItem) {
 var renderPictureList = function (photosArray) {
   var fragment = document.createDocumentFragment();
 
-  tempArray.forEach(function (item, i, arr) {
+  tempArray.forEach(function (item) {
     fragment.appendChild(renderPicture(item));
   });
   return fragment;
