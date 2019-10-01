@@ -59,10 +59,10 @@ var getRandomComment = function () {
 var getCommentsList = function (commentsCount) {
   var tempArray = [];
 
-  tempArray.forEach(function (item, i, arr) {
-    tempArray.push(getRandomComment());
+  tempArray.forEach(function (item) {
+    tempArray.push(getRandomComment(item));
   });
-  return tempArray;
+  return getCommentsList;
 };
 
 // Маппинг объекта фотографии
@@ -80,7 +80,7 @@ var getRandomPictureItem = function (imgUrl, description, likesCount, comment) {
 var getPictureList = function (pictureCount) {
   var tempArray = [];
 
-  tempArray.forEach(function (item, i, arr) {
+  tempArray.forEach(function (item, i) {
     tempArray[item];
     pictureUrl = 'photos/' + i + '.jpg';
     pictureDiscription = 'Описание фотографии';
@@ -88,7 +88,7 @@ var getPictureList = function (pictureCount) {
     pictureComments = getCommentsList(randomNumber(2, 1));
     tempArray.push(getRandomPictureItem(pictureUrl, pictureDiscription, likesCount, pictureComments));
   });
-  return tempArray;
+  return getPictureList;
 };
 
 // Рендер DOM элемента на основе объекта
