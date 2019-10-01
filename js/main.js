@@ -81,14 +81,14 @@ var getPictureList = function (pictureCount) {
   var tempArray = []
 
   tempArray.forEach(function (item, i, arr) {
-    tempArray[item];
-  }
-      var imgUrl = 'photos/' + i + '.jpg';
+    tempArray[item] {
+
+      var pictureUrl = 'photos/' + i + '.jpg';
       var pictureDiscription = 'Описание фотографии';
       var likesCount = randomNumber(LIKES_COUNT_MAX, LIKES_COUNT_MIN);
       var pictureComments = getCommentsList(randomNumber(2, 1));
-      tempArray.push(getRandomPictureItem(imgUrl, pictureDiscription, likesCount, pictureComments));
-
+      tempArray.push(getRandomPictureItem(pictureUrl, pictureDiscription, likesCount, pictureComments));
+}};
   return tempArray;
 };
 
