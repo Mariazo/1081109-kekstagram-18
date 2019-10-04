@@ -48,14 +48,14 @@ var getPictureList = function () {
     photo.push({
       url: 'photos/' + (i + 1) + '.jpg',
       description: '',
-      likes: randomNumber(LIKES_COUNT_MIN, LIKES_COUNT_MAX),
+      likes: getRandomNumber(LIKES_COUNT_MAX, LIKES_COUNT_MIN),
       comments: {
         name: getRandomArrElement(COMMENT_AUTHOR_NAME),
         avatar: getRandomArrElement(COMMENT_AUTHOR_AVATAR),
         massage: getRandomArrElement(AUTHOR_COMMENTS)
       }
     });
-  };
+  }
 
   return photo;
 };
@@ -67,7 +67,7 @@ var templatePicture = document.querySelector('#picture')
 
 // Рендер DOM элемента на основе объекта
 var renderPicture = function (photo) {
-  var pictureElement = templatePictureItem.cloneNode(true);
+  var pictureElement = templatePicture.cloneNode(true);
 
   pictureElement.querySelector('img').setAttribute('src', photo.url);
   pictureElement.querySelector('.picture__likes').textContent = photo.likes;
