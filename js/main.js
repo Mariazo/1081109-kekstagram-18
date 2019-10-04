@@ -22,94 +22,67 @@ var COMMENT_AUTHOR_NAME = [
   'Ренат'
 ];
 
-var templatePicture = document.querySelector('#picture');
-var templatePictureItem = templatePicture.content.querySelector('.picture');
-var pictureList = document.querySelector('.pictures');
-
-// Получаем массив с фотографиями и коментариями
-var completedPhotoList = getPictureList(PICTURES_COUNT);
-
-// Финальная отрисовка
-pictureList.appendChild(renderPictureList(completedPhotoList));
+var COMMENT_AUTHOR_AVATAR = [
+  'img/avatar-1.svg',
+  'img/avatar-2.svg',
+  'img/avatar-3.svg',
+  'img/avatar-4.svg',
+  'img/avatar-5.svg',
+  'img/avatar-6.svg'
+]
 
 // Генерация числа в заданном диапазоне, либо от 0 до указанного значения
-var randomNumber = function (max, min) {
-  if (min === undefined) {
-    min = 0;
-  }
-  return Math.floor((Math.random() * ((max + 1) - min)) + min);
+var getRandomNumber = function(max, min) {
+  return Math.floor((Math.random() * (max - min) + min));
 };
 
 // Получение случайного элемента из массива
-var getRandomArrElement = function (arr) {
+var getRandomArrElement = function(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 };
 
-// Генерируем объект комментария
-var getRandomComment = function () {
-  var tempObj = {
-    avatar: 'img/avatar-' + randomNumber(6, 1) + '.svg',
-    message: getRandomArrElement(AUTHOR_COMMENTS),
-    name: getRandomArrElement(COMMENT_AUTHOR_NAME),
-  };
-  return tempObj;
-};
-
-// Генерируем массив с указанным количеством комментариев
-var getCommentsList = function (commentsCount) {
-  var tempArray = [];
-
-  tempArray.forEach(function (item) {
-    tempArray.push(getRandomComment(item));
-  });
-  return getCommentsList;
-};
-
-// Маппинг объекта фотографии
-var getRandomPictureItem = function (imgUrl, description, likesCount, comment) {
-  var tempObj = {
-    url: imgUrl,
-    description: description,
-    likes: likesCount,
-    comments: comment,
-  };
-  return tempObj;
-};
-
 // Генерация массива из объектов фотографий
-var getPictureList = function (pictureCount) {
-  var tempArray = [];
+var getPictureList = function() {
+  var photo = [];
+  photo.forEach(function(item) {
+    photo.push({
+      url: 'photos/' + (i + 1) + '.jpg',
+      description: '',
+      likes: randomNumber(LIKES_COUNT_MAX, LIKES_COUNT_MIN),
+      comments: {
+        name: getRandomArrElement(COMMENT_AUTHOR_NAME),
+        avatar: getRandomArrElement(COMMENT_AUTHOR_AVATAR),
+        massage: getRandomArrElement(AUTHOR_COMMENTS)
+      }
+    });
+  })
 
-  tempArray.forEach(function (item, i) {
-    tempArray[item];
-    pictureUrl = 'photos/' + i + '.jpg';
-    pictureDiscription = 'Описание фотографии';
-    likesCount = randomNumber(LIKES_COUNT_MAX, LIKES_COUNT_MIN);
-    pictureComments = getCommentsList(randomNumber(2, 1));
-    tempArray.push(getRandomPictureItem(pictureUrl, pictureDiscription, likesCount, pictureComments));
-  });
-  return getPictureList;
+  return photo;
 };
+
+var pictureList = document.querySelector('.pictures');
+var templatePicture = document.querySelector('#picture')
+  .content
+  .querySelector('.picture');
 
 // Рендер DOM элемента на основе объекта
-var renderPicture = function (pictureItem) {
+var renderPicture = function (photo) {
   var pictureElement = templatePictureItem.cloneNode(true);
-  var pictureElementImg = pictureElement.querySelector('.picture__img');
 
-  pictureElementImg.src = pictureItem.url;
-  pictureElementImg.alt = pictureItem.description;
-  pictureElement.querySelector('.picture__likes').textContent = pictureItem.likes;
-  pictureElement.querySelector('.picture__comments').textContent = pictureItem.comments.length;
+  pictureElement.querySelector('img').setAttribute('src', photo.url);
+  pictureElement.querySelector('.picture__likes').textContent = photo.likes;
+  pictureElement.querySelector('.picture__comments').textContent = photo.comments;
 
   return pictureElement;
 };
 
 // Заполнение DOM элемента на основе массива
-var renderPictureList = function (photosArray) {
+var renderPictureList = function (photos) {
   var fragment = document.createDocumentFragment();
-
-  tempArray.forEach(function (item) {
-    fragment.appendChild(renderPicture(item));
-  });
+  for (var i = 0; i < photos.length; i++) {
+    fragment.appendChild(renderPicture(photos[i]));
+  }
   return fragment;
 };
+
+pictureList.appendChild(renderPictureList(getPictureList));
