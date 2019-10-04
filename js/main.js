@@ -29,33 +29,33 @@ var COMMENT_AUTHOR_AVATAR = [
   'img/avatar-4.svg',
   'img/avatar-5.svg',
   'img/avatar-6.svg'
-]
+];
 
 // Генерация числа в заданном диапазоне, либо от 0 до указанного значения
-var getRandomNumber = function(max, min) {
+var getRandomNumber = function (max, min) {
   return Math.floor((Math.random() * (max - min) + min));
 };
 
 // Получение случайного элемента из массива
-var getRandomArrElement = function(arr) {
+var getRandomArrElement = function (arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 };
 
 // Генерация массива из объектов фотографий
-var getPictureList = function() {
+var getPictureList = function () {
   var photo = [];
-  photo.forEach(function(item) {
+  for (var i = 0; i < PICTURES_COUNT; i++) {
     photo.push({
       url: 'photos/' + (i + 1) + '.jpg',
       description: '',
-      likes: randomNumber(LIKES_COUNT_MAX, LIKES_COUNT_MIN),
+      likes: randomNumber(LIKES_COUNT_MIN, LIKES_COUNT_MAX),
       comments: {
         name: getRandomArrElement(COMMENT_AUTHOR_NAME),
         avatar: getRandomArrElement(COMMENT_AUTHOR_AVATAR),
         massage: getRandomArrElement(AUTHOR_COMMENTS)
       }
     });
-  })
+  };
 
   return photo;
 };
