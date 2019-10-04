@@ -1,7 +1,5 @@
 'use strict';
 
-var LIKES_COUNT_MIN = 15;
-var LIKES_COUNT_MAX = 200;
 var PICTURES_COUNT = 25;
 
 var AUTHOR_COMMENTS = [
@@ -32,8 +30,8 @@ var COMMENT_AUTHOR_AVATAR = [
 ];
 
 // Генерация числа в заданном диапазоне, либо от 0 до указанного значения
-var getRandomNumber = function (max, min) {
-  return Math.floor((Math.random() * (max - min) + min));
+var getRandomNumber = function (min, max) {
+  return Math.floor(Math.random() * (max - min) + min);
 };
 
 // Получение случайного элемента из массива
@@ -48,7 +46,7 @@ var getPictureList = function () {
     photo.push({
       url: 'photos/' + (i + 1) + '.jpg',
       description: '',
-      likes: getRandomNumber(LIKES_COUNT_MAX, LIKES_COUNT_MIN),
+      likes: getRandomNumber(15, 200),
       comments: {
         name: getRandomArrElement(COMMENT_AUTHOR_NAME),
         avatar: getRandomArrElement(COMMENT_AUTHOR_AVATAR),
@@ -85,4 +83,4 @@ var renderPictureList = function (photos) {
   return fragment;
 };
 
-pictureList.appendChild(renderPictureList(getPictureList));
+pictureList.appendChild(renderPictureList(getPictureList()));
