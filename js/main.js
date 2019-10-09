@@ -20,15 +20,6 @@ var COMMENT_AUTHOR_NAME = [
   'Ренат'
 ];
 
-var COMMENT_AUTHOR_AVATAR = [
-  'img/avatar-1.svg',
-  'img/avatar-2.svg',
-  'img/avatar-3.svg',
-  'img/avatar-4.svg',
-  'img/avatar-5.svg',
-  'img/avatar-6.svg'
-];
-
 // Генерация числа в заданном диапазоне, либо от 0 до указанного значения
 var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -47,11 +38,7 @@ var getPictureList = function () {
       url: 'photos/' + (i + 1) + '.jpg',
       description: '',
       likes: getRandomNumber(15, 200),
-      comments: {
-        name: getRandomArrElement(COMMENT_AUTHOR_NAME),
-        avatar: getRandomArrElement(COMMENT_AUTHOR_AVATAR),
-        massage: getRandomArrElement(AUTHOR_COMMENTS)
-      }
+      comments: getRandomNumber(0, 6)
     });
   }
 
@@ -59,17 +46,18 @@ var getPictureList = function () {
 };
 
 var pictureList = document.querySelector('.pictures');
-var templatePicture = document.querySelector('#picture')
-  .content
-  .querySelector('.picture');
 
 // Рендер DOM элемента на основе объекта
 var renderPicture = function (photo) {
+  var templatePicture = document.querySelector('#picture')
+    .content
+    .querySelector('.picture');
   var pictureElement = templatePicture.cloneNode(true);
 
   pictureElement.querySelector('img').setAttribute('src', photo.url);
   pictureElement.querySelector('.picture__likes').textContent = photo.likes;
   pictureElement.querySelector('.picture__comments').textContent = photo.comments;
+
 
   return pictureElement;
 };
@@ -83,4 +71,5 @@ var renderPictureList = function (photos) {
   return fragment;
 };
 
-pictureList.appendChild(renderPictureList(getPictureList()));
+var pictureListA = renderPictureList(getPictureList());
+pictureList.appendChild(pictureListA);
