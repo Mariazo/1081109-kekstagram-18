@@ -30,18 +30,13 @@ var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 };
 
-// Получение случайного элемента из массива
-var getRandomArrElement = function (arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
-};
-
 // Генерация объект-комментарий
 var generateCommentObject = function () {
   var commentObject = {};
 
   commentObject.avatar = 'avatar-' + getRandomNumber(MIN_AVATAR_NUMBER, MAX_AVATAR_NUMBER) + '.svg';
   commentObject.message = AUTHOR_COMMENTS[getRandomNumber(0, AUTHOR_COMMENTS.length)];
-  commentObject.name = COMMENT_AUTOR_NAME[getRandomNumber(0, COMMENT_AUTOR_NAME.length)];
+  commentObject.name = COMMENT_AUTHOR_NAME[getRandomNumber(0, COMMENT_AUTHOR_NAME.length)];
 
   return commentObject;
 };
@@ -52,7 +47,7 @@ var generateCommentsObjectsArray = function () {
   commentsObjectsArray.length = getRandomNumber(0, MAX_COMMENTS_COUNT);
 
   for (var i = 0; i < commentsObjectsArray.length; i++) {
-    commentsObjectsArray[i] = getRandomNumber();
+    commentsObjectsArray[i] = generateCommentObject();
   }
 
   return commentsObjectsArray;
