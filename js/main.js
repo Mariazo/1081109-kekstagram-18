@@ -28,12 +28,12 @@ var COMMENT_AUTHOR_NAME = [
 ];
 
 // Генерация числа в заданном диапазоне, либо от 0 до указанного значения
-var getRandomNumber = function(min, max) {
+var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 };
 
 // Генерация объект-комментарий
-var generateCommentObject = function() {
+var generateCommentObject = function () {
   var commentObject = {};
 
   commentObject.avatar = 'avatar-' + getRandomNumber(MIN_AVATAR_NUMBER, MAX_AVATAR_NUMBER) + '.svg';
@@ -44,7 +44,7 @@ var generateCommentObject = function() {
 };
 
 // Генерация массива объектов-комментариев
-var generateCommentsObjectsArray = function() {
+var generateCommentsObjectsArray = function () {
   var commentsObjectsArray = [];
   commentsObjectsArray.length = getRandomNumber(0, MAX_COMMENTS_COUNT);
 
@@ -56,7 +56,7 @@ var generateCommentsObjectsArray = function() {
 };
 
 // Генерация массива из объектов фотографий
-var getPictureList = function() {
+var getPictureList = function () {
   var photo = [];
   for (var i = 0; i < PICTURES_COUNT; i++) {
     photo.push({
@@ -73,7 +73,7 @@ var getPictureList = function() {
 var pictureList = document.querySelector('.pictures');
 
 // Рендер DOM элемента на основе объекта
-var renderPicture = function(photo) {
+var renderPicture = function (photo) {
   var templatePicture = document.querySelector('#picture')
     .content
     .querySelector('.picture');
@@ -88,7 +88,7 @@ var renderPicture = function(photo) {
 };
 
 // Заполнение DOM элемента на основе массива
-var renderPictureList = function(photos) {
+var renderPictureList = function (photos) {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < photos.length; i++) {
     fragment.appendChild(renderPicture(photos[i]));
@@ -107,23 +107,23 @@ var buttonClose = editForm.querySelector('#upload-cancel');
 var photoHashtags = editForm.querySelector('.text__hashtags');
 var photoDescription = editForm.querySelector('.text__description');
 
-var openEditForm = function() {
+var openEditForm = function () {
   editForm.classList.remove('hidden');
   document.addEventListener('keydown', onEditFormEscPress);
 };
 
-var closeEditForm = function() {
+var closeEditForm = function () {
   editForm.classList.add('hidden');
   document.removeEventListener('keydown', onEditFormEscPress);
 };
 
-var onInputTagsDescriptionPress = function(evt) {
+var onInputTagsDescriptionPress = function (evt) {
   if (evt.keyCode === ESC_BUTTON) {
     evt.stopPropagation();
   }
 };
 
-var onEditFormEscPress = function(evt) {
+var onEditFormEscPress = function (evt) {
   if (evt.keyCode === ESC_BUTTON) {
     editForm.classList.add('hidden');
   }
@@ -136,13 +136,13 @@ photoDescription.addEventListener('keydown', onInputTagsDescriptionPress);
 
 // ВАЛИДАЦИЯ ХЕШТЕГОВ
 
-photoHashtags.addEventListener('invalid', function() {
+photoHashtags.addEventListener('invalid', function () {
   if (photoHashtags.validity.tooShort) {
     photoHashtags.setCustomValidity('Слишком короткий хештег');
   }
 });
 
-var hashtagHandler = function() {
+var hashtagHandler = function () {
   var hashtags = photoHashtags.value;
 
   if (!hashtags.includes(' ')) {
@@ -160,9 +160,9 @@ var hashtagHandler = function() {
       return photoHashtags.setCustomValidity('Хештеги должны начинаться со знака "#"');
     } else if (hashtags[i].length > 20) {
       return photoHashtags.setCustomValidity('Длина одного хештега не должна быть больше 20 знаков, включая "#"');
-    } else if (hashtags.findIndex(function(tag, currentIndex) {
-        return tag === hashtags[i] && currentIndex !== i;
-      }) !== -1) {
+    } else if (hashtags.findIndex(function (tag, currentIndex) {
+      return tag === hashtags[i] && currentIndex !== i;
+    }) !== -1) {
       return photoHashtags.setCustomValidity('Хештеги не должны быть одинаковыми');
     }
   }
@@ -172,7 +172,7 @@ var hashtagHandler = function() {
 
 photoHashtags.addEventListener('change', hashtagHandler);
 
-photoHashtags.addEventListener('input', function() {
+photoHashtags.addEventListener('input', function () {
   photoHashtags.setCustomValidity('');
 });
 
@@ -184,7 +184,7 @@ var effectLevelPin = editForm.querySelector('.effect-level__pin');
 var effectLevelValue = editForm.querySelector('.effect-level__value');
 var effectLevelDepth = editForm.querySelector('.effect-level__depth');
 
-var onEffectLevelPinPress = function() {
+var onEffectLevelPinPress = function () {
   var currentEffectValue = Math.round(effectLevelDepth / (EFFECT_LEVEL_LINE_WIDTH / 100));
   effectLevelValue.setAttribute('value', currentEffectValue);
 };
