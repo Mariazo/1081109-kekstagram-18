@@ -8,6 +8,7 @@ var MIN_AVATAR_NUMBER = 1;
 var MAX_AVATAR_NUMBER = 6;
 var TAG_NUMBER = 5;
 var ESC_BUTTON = 27;
+var ENTER_BUTTON = 13;
 
 var AUTHOR_COMMENTS = [
   'Всё отлично!',
@@ -100,93 +101,140 @@ var pictureListA = renderPictureList(getPictureList());
 pictureList.appendChild(pictureListA);
 
 // ОТКРЫТИЕ ФОРМЫ ЗАГРУЗКИ И РЕДАКТИРОВАНИЯ ФОТО
+// Загрузка нового изображения
+ var uploadFile = document.querySelector('#upload-file');
+ var uploadOverlay = document.querySelector('.img-upload__overlay');
+ var uploadOverlayCancel = uploadOverlay.querySelector('.img-upload__cancel');
 
-var uploadForm = document.querySelector('#upload-file');
-var editForm = document.querySelector('.img-upload__overlay');
-var buttonClose = editForm.querySelector('#upload-cancel');
-var photoHashtags = editForm.querySelector('.text__hashtags');
-var photoDescription = editForm.querySelector('.text__description');
+  uploadFile.addEventListener('change', function () {
+   uploadOverlay.classList.remove('hidden');
+ });
 
-var openEditForm = function () {
-  editForm.classList.remove('hidden');
-  document.addEventListener('keydown', onEditFormEscPress);
-};
+  uploadOverlayCancel.addEventListener('click', function (evt) {
+   evt.preventDefault();
+   uploadOverlay.classList.add('hidden');
+ });
 
-var closeEditForm = function () {
-  editForm.classList.add('hidden');
-  document.removeEventListener('keydown', onEditFormEscPress);
-};
+// Увеличение масштаба изображения
+ var STEP = 25;
+ var imageUploadScale = document.querySelector('.img-upload__scale');
+ var scaleControlValue = imageUploadScale.querySelector('.scale__control--value');
+ var buttonSmall = imageUploadScale.querySelector('.scale__control--smaller');
+ var buttonlBig = imageUploadScale.querySelector('.scale__control--bigger');
+ var imageUploadPreview = document.querySelector('.img-upload__preview');
 
-var onInputTagsDescriptionPress = function (evt) {
-  if (evt.keyCode === ESC_BUTTON) {
-    evt.stopPropagation();
-  }
-};
+  scaleControlValue.setAttribute('value', '100%');
 
-var onEditFormEscPress = function (evt) {
-  if (evt.keyCode === ESC_BUTTON) {
-    editForm.classList.add('hidden');
-  }
-};
+  var currentValue = parseInt(scaleControlValue.getAttribute('value'), 10);
 
-uploadForm.addEventListener('change', openEditForm);
-buttonClose.addEventListener('click', closeEditForm);
-photoHashtags.addEventListener('keydown', onInputTagsDescriptionPress);
-photoDescription.addEventListener('keydown', onInputTagsDescriptionPress);
+  buttonSmall.addEventListener('click', function (evt) {
+   evt.preventDefault();
+   changeValue(currentValue, false);
+ });
+
+  buttonlBig.addEventListener('click', function (evt) {
+   evt.preventDefault();
+   changeValue(currentValue, true);
+ });
+
+  function changeValue(value, isGrow) {
+   if (!isGrow && value > STEP) {
+     value -= STEP;
+   } else if (isGrow && value < 100) {
+     value += STEP;
+   }
+   resizeImage(value);
+   currentValue = value;
+   scaleControlValue.setAttribute('value', value + '%');
+ }
+
+  function resizeImage(value) {
+   imageUploadPreview.style.transform = 'scale(' + value / 100 + ')';
+ }
+
+// Наложение эффекта на изображение
+var FILTERS = {
+   'effect-chrome': 'effects__preview--chrome',
+   'effect-sepia': 'effects__preview--sepia',
+   'effect-marvin': 'effects__preview--marvin',
+   'effect-phobos': 'effects__preview--phobos',
+   'effect-heat': 'effects__preview--heat'
+ };
+ var imageUploadEffects = document.querySelector('.img-upload__effects');
+ var effectsItems = imageUploadEffects.querySelectorAll('.effects__item');
+
+  for (var i = 0; i < effectsItems.length; i++) {
+   addThumbnailClickHandler(effectsItems[i]);
+ }
+
+  function addThumbnailClickHandler(thumbnail) {
+   thumbnail.addEventListener('click', function () {
+     var item = thumbnail.querySelector('.effects__label');
+     var filterName = item.getAttribute('for');
+     var picture = imageUploadPreview.querySelector('img');
+     picture.removeAttribute('class');
+
+      if (FILTERS[filterName]) {
+       picture.classList.add(FILTERS[filterName]);
+     }
+   });
+ }
 
 // ВАЛИДАЦИЯ ХЕШТЕГОВ
 
-photoHashtags.addEventListener('invalid', function () {
-  if (photoHashtags.validity.tooShort) {
-    photoHashtags.setCustomValidity('Слишком короткий хештег');
-  }
-});
+var HASHTAG_ERRORS = {
+   'symbol': 'Отсутствует обязательный символ #',
+   'symbol_wrong': 'Символ # должен стоять в начале хештега',
+   'max': 'Максимальное кол-во хештегов должно быть 5',
+   'same': 'Есть повторяющиеся хештеги',
+   'maxLength': 'Слишком длинный хештег'
+ };
 
-var hashtagHandler = function () {
-  var hashtags = photoHashtags.value;
+  var inputHashtags = document.querySelector('.text__hashtags');
 
-  if (!hashtags.includes(' ')) {
-    return photoHashtags.setCustomValidity('Хештеги должны разделяться пробелами');
-  }
+  inputHashtags.addEventListener('change', function () {
+   var hashtagsArr = inputHashtags.value.split(' ');
+   var errorCode = checkHashtag(hashtagsArr);
 
-  hashtags = hashtags.replace(/\s\s+/g, ' ').trim().toLowerCase().split(' ');
+    if (errorCode !== '') {
+     inputHashtags.setCustomValidity(HASHTAG_ERRORS[errorCode]);
+   } else {
+     inputHashtags.setCustomValidity(errorCode);
+   }
+ });
 
-  if (hashtags.length > TAG_NUMBER) {
-    return photoHashtags.setCustomValidity('Cлишком много хештегов, ограничьтесь пятью');
-  }
+  function checkHashtag(array) {
+   if (array.length > 5) {
+     return 'max';
+   }
 
-  for (var i = 0; i < hashtags.length; i++) {
-    if (hashtags[i][0] !== '#') {
-      return photoHashtags.setCustomValidity('Хештеги должны начинаться со знака "#"');
-    } else if (hashtags[i].length > 20) {
-      return photoHashtags.setCustomValidity('Длина одного хештега не должна быть больше 20 знаков, включая "#"');
-    } else if (hashtags.findIndex(function (tag, currentIndex) {
-      return tag === hashtags[i] && currentIndex !== i;
-    }) !== -1) {
-      return photoHashtags.setCustomValidity('Хештеги не должны быть одинаковыми');
+    for (var k = 0; k < array.length; k++) {
+     if (array[k].length > 20) {
+       return 'maxLength';
+     }
+     if (array[k].indexOf('#') < 0) {
+       return 'symbol';
+     }
+     if (array[k].indexOf('#') > 0) {
+       return 'symbol_wrong';
+     }
+     for (var j = 0; j < array.length; j++) {
+       if ((array[k].toLowerCase() === array[j].toLowerCase()) && (k !== j)) {
+         return 'same';
+       }
+     }
+   }
+
+    return '';
+ }
+ // Добавление комментария к изображению
+  var inputComments = document.querySelector('.text__description');
+
+   inputComments.addEventListener('change', function () {
+    var str = inputComments.value;
+    if (str.length > 140) {
+      inputComments.setCustomValidity('Комментарий не должен превышать 140-ка символов');
+    } else {
+      inputComments.setCustomValidity('');
     }
-  }
-
-  return hashtags;
-};
-
-photoHashtags.addEventListener('change', hashtagHandler);
-
-photoHashtags.addEventListener('input', function () {
-  photoHashtags.setCustomValidity('');
-});
-
-// ИЗМЕНЕНИЕ ГЛУБИНЫ ЭФФЕКТА ФИЛЬТРА
-
-var EFFECT_LEVEL_LINE_WIDTH = 455; // ширина блока линейки 495px минус отступы линии от границ блока слева справа по 20px
-
-var effectLevelPin = editForm.querySelector('.effect-level__pin');
-var effectLevelValue = editForm.querySelector('.effect-level__value');
-var effectLevelDepth = editForm.querySelector('.effect-level__depth');
-
-var onEffectLevelPinPress = function () {
-  var currentEffectValue = Math.round(effectLevelDepth / (EFFECT_LEVEL_LINE_WIDTH / 100));
-  effectLevelValue.setAttribute('value', currentEffectValue);
-};
-
-effectLevelPin.addEventListener('mouseup', onEffectLevelPinPress);
+  });
