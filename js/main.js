@@ -6,9 +6,7 @@ var MIN_LIKES_COUNT = 15;
 var MAX_LIKES_COUNT = 200;
 var MIN_AVATAR_NUMBER = 1;
 var MAX_AVATAR_NUMBER = 6;
-var TAG_NUMBER = 5;
-var ESC_BUTTON = 27;
-var ENTER_BUTTON = 13;
+
 
 var AUTHOR_COMMENTS = [
   'Всё отлично!',
@@ -102,139 +100,139 @@ pictureList.appendChild(pictureListA);
 
 // ОТКРЫТИЕ ФОРМЫ ЗАГРУЗКИ И РЕДАКТИРОВАНИЯ ФОТО
 // Загрузка нового изображения
- var uploadFile = document.querySelector('#upload-file');
- var uploadOverlay = document.querySelector('.img-upload__overlay');
- var uploadOverlayCancel = uploadOverlay.querySelector('.img-upload__cancel');
+var uploadFile = document.querySelector('#upload-file');
+var uploadOverlay = document.querySelector('.img-upload__overlay');
+var uploadOverlayCancel = uploadOverlay.querySelector('.img-upload__cancel');
 
-  uploadFile.addEventListener('change', function () {
-   uploadOverlay.classList.remove('hidden');
- });
+uploadFile.addEventListener('change', function () {
+  uploadOverlay.classList.remove('hidden');
+});
 
-  uploadOverlayCancel.addEventListener('click', function (evt) {
-   evt.preventDefault();
-   uploadOverlay.classList.add('hidden');
- });
+uploadOverlayCancel.addEventListener('click', function (evt) {
+  evt.preventDefault();
+  uploadOverlay.classList.add('hidden');
+});
 
 // Увеличение масштаба изображения
- var STEP = 25;
- var imageUploadScale = document.querySelector('.img-upload__scale');
- var scaleControlValue = imageUploadScale.querySelector('.scale__control--value');
- var buttonSmall = imageUploadScale.querySelector('.scale__control--smaller');
- var buttonlBig = imageUploadScale.querySelector('.scale__control--bigger');
- var imageUploadPreview = document.querySelector('.img-upload__preview');
+var STEP = 25;
+var imageUploadScale = document.querySelector('.img-upload__scale');
+var scaleControlValue = imageUploadScale.querySelector('.scale__control--value');
+var buttonSmall = imageUploadScale.querySelector('.scale__control--smaller');
+var buttonlBig = imageUploadScale.querySelector('.scale__control--bigger');
+var imageUploadPreview = document.querySelector('.img-upload__preview');
 
-  scaleControlValue.setAttribute('value', '100%');
+scaleControlValue.setAttribute('value', '100%');
 
-  var currentValue = parseInt(scaleControlValue.getAttribute('value'), 10);
+var currentValue = parseInt(scaleControlValue.getAttribute('value'), 10);
 
-  buttonSmall.addEventListener('click', function (evt) {
-   evt.preventDefault();
-   changeValue(currentValue, false);
- });
+buttonSmall.addEventListener('click', function (evt) {
+  evt.preventDefault();
+  changeValue(currentValue, false);
+});
 
-  buttonlBig.addEventListener('click', function (evt) {
-   evt.preventDefault();
-   changeValue(currentValue, true);
- });
+buttonlBig.addEventListener('click', function (evt) {
+  evt.preventDefault();
+  changeValue(currentValue, true);
+});
 
-  function changeValue(value, isGrow) {
-   if (!isGrow && value > STEP) {
-     value -= STEP;
-   } else if (isGrow && value < 100) {
-     value += STEP;
-   }
-   resizeImage(value);
-   currentValue = value;
-   scaleControlValue.setAttribute('value', value + '%');
- }
+function changeValue(value, isGrow) {
+  if (!isGrow && value > STEP) {
+    value -= STEP;
+  } else if (isGrow && value < 100) {
+    value += STEP;
+  }
+  resizeImage(value);
+  currentValue = value;
+  scaleControlValue.setAttribute('value', value + '%');
+}
 
-  function resizeImage(value) {
-   imageUploadPreview.style.transform = 'scale(' + value / 100 + ')';
- }
+function resizeImage(value) {
+  imageUploadPreview.style.transform = 'scale(' + value / 100 + ')';
+}
 
 // Наложение эффекта на изображение
 var FILTERS = {
-   'effect-chrome': 'effects__preview--chrome',
-   'effect-sepia': 'effects__preview--sepia',
-   'effect-marvin': 'effects__preview--marvin',
-   'effect-phobos': 'effects__preview--phobos',
-   'effect-heat': 'effects__preview--heat'
- };
- var imageUploadEffects = document.querySelector('.img-upload__effects');
- var effectsItems = imageUploadEffects.querySelectorAll('.effects__item');
+  'effect-chrome': 'effects__preview--chrome',
+  'effect-sepia': 'effects__preview--sepia',
+  'effect-marvin': 'effects__preview--marvin',
+  'effect-phobos': 'effects__preview--phobos',
+  'effect-heat': 'effects__preview--heat'
+};
+var imageUploadEffects = document.querySelector('.img-upload__effects');
+var effectsItems = imageUploadEffects.querySelectorAll('.effects__item');
 
-  for (var i = 0; i < effectsItems.length; i++) {
-   addThumbnailClickHandler(effectsItems[i]);
- }
+for (var i = 0; i < effectsItems.length; i++) {
+  addThumbnailClickHandler(effectsItems[i]);
+}
 
-  function addThumbnailClickHandler(thumbnail) {
-   thumbnail.addEventListener('click', function () {
-     var item = thumbnail.querySelector('.effects__label');
-     var filterName = item.getAttribute('for');
-     var picture = imageUploadPreview.querySelector('img');
-     picture.removeAttribute('class');
+function addThumbnailClickHandler(thumbnail) {
+  thumbnail.addEventListener('click', function () {
+    var item = thumbnail.querySelector('.effects__label');
+    var filterName = item.getAttribute('for');
+    var picture = imageUploadPreview.querySelector('img');
+    picture.removeAttribute('class');
 
-      if (FILTERS[filterName]) {
-       picture.classList.add(FILTERS[filterName]);
-     }
-   });
- }
+    if (FILTERS[filterName]) {
+      picture.classList.add(FILTERS[filterName]);
+    }
+  });
+}
 
 // ВАЛИДАЦИЯ ХЕШТЕГОВ
 
 var HASHTAG_ERRORS = {
-   'symbol': 'Отсутствует обязательный символ #',
-   'symbol_wrong': 'Символ # должен стоять в начале хештега',
-   'max': 'Максимальное кол-во хештегов должно быть 5',
-   'same': 'Есть повторяющиеся хештеги',
-   'maxLength': 'Слишком длинный хештег'
- };
+  'symbol': 'Отсутствует обязательный символ #',
+  'symbol_wrong': 'Символ # должен стоять в начале хештега',
+  'max': 'Максимальное кол-во хештегов должно быть 5',
+  'same': 'Есть повторяющиеся хештеги',
+  'maxLength': 'Слишком длинный хештег'
+};
 
-  var inputHashtags = document.querySelector('.text__hashtags');
+var inputHashtags = document.querySelector('.text__hashtags');
 
-  inputHashtags.addEventListener('change', function () {
-   var hashtagsArr = inputHashtags.value.split(' ');
-   var errorCode = checkHashtag(hashtagsArr);
+inputHashtags.addEventListener('change', function () {
+  var hashtagsArr = inputHashtags.value.split(' ');
+  var errorCode = checkHashtag(hashtagsArr);
 
-    if (errorCode !== '') {
-     inputHashtags.setCustomValidity(HASHTAG_ERRORS[errorCode]);
-   } else {
-     inputHashtags.setCustomValidity(errorCode);
-   }
- });
+  if (errorCode !== '') {
+    inputHashtags.setCustomValidity(HASHTAG_ERRORS[errorCode]);
+  } else {
+    inputHashtags.setCustomValidity(errorCode);
+  }
+});
 
-  function checkHashtag(array) {
-   if (array.length > 5) {
-     return 'max';
-   }
+function checkHashtag(array) {
+  if (array.length > 5) {
+    return 'max';
+  }
 
-    for (var k = 0; k < array.length; k++) {
-     if (array[k].length > 20) {
-       return 'maxLength';
-     }
-     if (array[k].indexOf('#') < 0) {
-       return 'symbol';
-     }
-     if (array[k].indexOf('#') > 0) {
-       return 'symbol_wrong';
-     }
-     for (var j = 0; j < array.length; j++) {
-       if ((array[k].toLowerCase() === array[j].toLowerCase()) && (k !== j)) {
-         return 'same';
-       }
-     }
-   }
-
-    return '';
- }
- // Добавление комментария к изображению
-  var inputComments = document.querySelector('.text__description');
-
-   inputComments.addEventListener('change', function () {
-    var str = inputComments.value;
-    if (str.length > 140) {
-      inputComments.setCustomValidity('Комментарий не должен превышать 140-ка символов');
-    } else {
-      inputComments.setCustomValidity('');
+  for (var k = 0; k < array.length; k++) {
+    if (array[k].length > 20) {
+      return 'maxLength';
     }
-  });
+    if (array[k].indexOf('#') < 0) {
+      return 'symbol';
+    }
+    if (array[k].indexOf('#') > 0) {
+      return 'symbol_wrong';
+    }
+    for (var j = 0; j < array.length; j++) {
+      if ((array[k].toLowerCase() === array[j].toLowerCase()) && (k !== j)) {
+        return 'same';
+      }
+    }
+  }
+
+  return '';
+}
+// Добавление комментария к изображению
+var inputComments = document.querySelector('.text__description');
+
+inputComments.addEventListener('change', function () {
+  var str = inputComments.value;
+  if (str.length > 140) {
+    inputComments.setCustomValidity('Комментарий не должен превышать 140-ка символов');
+  } else {
+    inputComments.setCustomValidity('');
+  }
+});
