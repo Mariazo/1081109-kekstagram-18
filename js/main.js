@@ -185,7 +185,8 @@ var HASHTAG_ERRORS = {
   'symbol_wrong': 'Символ # должен стоять в начале хештега',
   'max': 'Максимальное кол-во хештегов должно быть 5',
   'same': 'Есть повторяющиеся хештеги',
-  'maxLength': 'Слишком длинный хештег'
+  'maxLength': 'Слишком длинный хештег',
+  'space': 'Хэштеги должны быть разделены пробелом'
 };
 
 var inputHashtags = document.querySelector('.text__hashtags');
@@ -215,6 +216,9 @@ function checkHashtag(array) {
     }
     if (array[k].indexOf('#') > 0) {
       return 'symbol_wrong';
+    }
+    if (array[k].slice(1).includes('#')) {
+      return 'space';
     }
     for (var j = 0; j < array.length; j++) {
       if ((array[k].toLowerCase() === array[j].toLowerCase()) && (k !== j)) {
