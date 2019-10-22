@@ -40,7 +40,7 @@
       commentsObjectsArray.length = window.data.getRandomNumber(0, MAX_COMMENTS_COUNT);
 
       for (var i = 0; i < commentsObjectsArray.length; i++) {
-        commentsObjectsArray[i] = generateCommentObject();
+        commentsObjectsArray[i] = this.generateCommentObject();
       }
 
       return commentsObjectsArray;

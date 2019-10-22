@@ -48,5 +48,4 @@
 
   var pictureListA = renderPictureList(getPictureList());
   pictureList.appendChild(pictureListA);
-
 })();
