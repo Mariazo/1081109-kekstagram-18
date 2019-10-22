@@ -27,9 +27,9 @@
     generateCommentObject: function () {
       var commentObject = {};
 
-      commentObject.avatar = 'avatar-' + getRandomNumber(MIN_AVATAR_NUMBER, MAX_AVATAR_NUMBER) + '.svg';
-      commentObject.message = AUTHOR_COMMENTS[getRandomNumber(0, AUTHOR_COMMENTS.length)];
-      commentObject.name = COMMENT_AUTHOR_NAME[getRandomNumber(0, COMMENT_AUTHOR_NAME.length)];
+      commentObject.avatar = 'avatar-' + window.data.getRandomNumber(MIN_AVATAR_NUMBER, MAX_AVATAR_NUMBER) + '.svg';
+      commentObject.message = AUTHOR_COMMENTS[window.data.getRandomNumber(0, AUTHOR_COMMENTS.length)];
+      commentObject.name = COMMENT_AUTHOR_NAME[window.data.getRandomNumber(0, COMMENT_AUTHOR_NAME.length)];
 
       return commentObject;
     },
@@ -37,7 +37,7 @@
     // Генерация массива объектов-комментариев
     generateCommentsObjectsArray: function () {
       var commentsObjectsArray = [];
-      commentsObjectsArray.length = getRandomNumber(0, MAX_COMMENTS_COUNT);
+      commentsObjectsArray.length = window.data.getRandomNumber(0, MAX_COMMENTS_COUNT);
 
       for (var i = 0; i < commentsObjectsArray.length; i++) {
         commentsObjectsArray[i] = generateCommentObject();
