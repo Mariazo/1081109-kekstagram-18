@@ -32,7 +32,7 @@
       commentObject.name = COMMENT_AUTHOR_NAME[getRandomNumber(0, COMMENT_AUTHOR_NAME.length)];
 
       return commentObject;
-    }
+    },
 
     // Генерация массива объектов-комментариев
     generateCommentsObjectsArray: function () {
@@ -44,6 +44,6 @@
       }
 
       return commentsObjectsArray;
-    };
+    }
   };
 })();
