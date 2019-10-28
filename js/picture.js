@@ -20,8 +20,6 @@
     return photo;
   };
 
-  var pictureList = document.querySelector('.pictures');
-
   // Рендер DOM элемента на основе объекта
   var renderPicture = function (photo) {
     var templatePicture = document.querySelector('#picture')
@@ -33,19 +31,23 @@
     pictureElement.querySelector('.picture__likes').textContent = photo.likes;
     pictureElement.querySelector('.picture__comments').textContent = photo.comments.length;
 
-
     return pictureElement;
   };
 
   // Заполнение DOM элемента на основе массива
   var renderPictureList = function (photos) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < photos.length; i++) {
+     for (var i = 0; i < photos.length; i++) {
       fragment.appendChild(renderPicture(photos[i]));
-    }
+    };
     return fragment;
   };
 
-  var pictureListA = renderPictureList(getPictureList());
-  pictureList.appendChild(pictureListA);
+function setPictures() {
+  var pictureList = document.querySelector('.pictures');
+  var photoCards = getPictureList();
+  pictureList.appendChild(renderPictureList(photoCards));
+};
+
+setPictures();
 })();

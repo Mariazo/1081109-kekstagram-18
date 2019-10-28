@@ -21,7 +21,6 @@
     'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
   ];
 
-
   window.comments = {
     // Генерация объект-комментарий
     generateCommentObject: function () {
@@ -37,11 +36,11 @@
     // Генерация массива объектов-комментариев
     generateCommentsObjectsArray: function () {
       var commentsObjectsArray = [];
-      commentsObjectsArray.length = window.data.getRandomNumber(0, MAX_COMMENTS_COUNT);
+      var randomNumber = window.data.getRandomNumber(0, MAX_COMMENTS_COUNT);
 
-      for (var i = 0; i < commentsObjectsArray.length; i++) {
-        commentsObjectsArray[i] = this.generateCommentObject();
-      }
+      for (var i = 0; i < randomNumber; i++) {
+        commentsObjectsArray.push(this.generateCommentObject());
+      };
 
       return commentsObjectsArray;
     }

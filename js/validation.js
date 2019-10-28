@@ -58,7 +58,7 @@
   inputComments.addEventListener('change', function () {
     var str = inputComments.value;
     if (str.length > 140) {
-      inputComments.setCustomValidity('Комментарий не должен превышать 140-ка символов');
+      inputComments.setCustomValidity('Комментарий не должен превышать 140 символов');
     } else {
       inputComments.setCustomValidity('');
     }
