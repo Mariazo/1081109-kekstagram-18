@@ -40,7 +40,7 @@
 
       for (var i = 0; i < randomNumber; i++) {
         commentsObjectsArray.push(this.generateCommentObject());
-      };
+      }
 
       return commentsObjectsArray;
     }
