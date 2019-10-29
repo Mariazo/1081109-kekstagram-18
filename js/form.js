@@ -1,6 +1,6 @@
 'use strict';
 
-(function() {
+(function () {
   // ОТКРЫТИЕ ФОРМЫ ЗАГРУЗКИ И РЕДАКТИРОВАНИЯ ФОТО
   var FILTERS = {
     'effect-chrome': 'effects__preview--chrome',
@@ -47,7 +47,7 @@
     changeValue(currentValue, true);
   });
 
-  //Изменение значения при масштабировании изображения
+  // Изменение значения при масштабировании изображения
   function changeValue(value, isGrow) {
     if (!isGrow && value > STEP) {
       value -= STEP;
@@ -59,10 +59,6 @@
     scaleControlValue.setAttribute('value', value + '%');
   }
 
-  function resizeImage(value) {
-    imageUploadPreview.style.transform = 'scale(' + value / 100 + ')';
-  }
-
   // Наложение эффекта на изображение
   var imageUploadEffects = document.querySelector('.img-upload__effects');
   var effectsItems = imageUploadEffects.querySelectorAll('.effects__item');
@@ -72,19 +68,16 @@
     addThumbnailClickHandler(effectsItems[i]);
   }
 
-
-
-  function effectItem() {
-    var item = thumbnail.querySelector('.effects__label');
-    var filterName = item.getAttribute('for');
-    var picture = imageUploadPreview.querySelector('img');
-    picture.removeAttribute('class');
-
-    if (FILTERS[filterName]) {
-      picture.classList.add(FILTERS[filterName]);
-    }
-  }
   function addThumbnailClickHandler(thumbnail) {
-    thumbnail.addEventListener('click', effectItem);
+    thumbnail.addEventListener('click', function () {
+      var item = thumbnail.querySelector('.effects__label');
+      var filterName = item.getAttribute('for');
+      var picture = imageUploadPreview.querySelector('img');
+      picture.removeAttribute('class');
+
+      if (FILTERS[filterName]) {
+        picture.classList.add(FILTERS[filterName]);
+      }
+    });
   }
 })();

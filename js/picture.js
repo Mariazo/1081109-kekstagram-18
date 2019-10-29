@@ -37,17 +37,17 @@
   // Заполнение DOM элемента на основе массива
   var renderPictureList = function (photos) {
     var fragment = document.createDocumentFragment();
-     for (var i = 0; i < photos.length; i++) {
+    for (var i = 0; i < photos.length; i++) {
       fragment.appendChild(renderPicture(photos[i]));
-    };
+    }
     return fragment;
   };
 
-function setPictures() {
-  var pictureList = document.querySelector('.pictures');
-  var photoCards = getPictureList();
-  pictureList.appendChild(renderPictureList(photoCards));
-};
+  function setPictures() {
+    var pictureList = document.querySelector('.pictures');
+    var photoCards = getPictureList();
+    pictureList.appendChild(renderPictureList(photoCards));
+  }
 
-setPictures();
+  setPictures();
 })();
