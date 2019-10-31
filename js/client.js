@@ -19,7 +19,7 @@
     xhr.send();
   };
 
-  var save = function(data, onLoad, onError) {
+  var save = function (data, onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.timeout = 30000;
