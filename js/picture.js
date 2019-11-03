@@ -1,9 +1,10 @@
 'use strict';
 
-(function () {
+(function() {
   var PICTURES_COUNT = 25;
   var MIN_LIKES_COUNT = 15;
   var MAX_LIKES_COUNT = 200;
+  var uploadedImages = [];
 
   // Генерация массива из объектов фотографий
   var getPictureList = function () {
@@ -50,4 +51,16 @@
   }
 
   setPictures();
+
+  var onLoadPicture = function (images) {
+    window.data.uploadedImages = images;
+    renderPictureList(images);
+  };
+
+  window.client.load(onLoadPicture);
+
+  window.data = {
+    uploadedImages: uploadedImages,
+    renderPictureList: renderPictureList
+  };
 })();

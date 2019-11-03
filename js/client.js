@@ -15,7 +15,7 @@
 
     xhr.timeout = 10000;
 
-    xhr.open('GET', URL + '/data');
+    xhr.open('GET', URL + '/picture');
     xhr.send();
   };
 
@@ -41,10 +41,10 @@
     xhr.timeout = 1000;
 
     xhr.open('POST', URL);
-    xhr.send(data);
+    xhr.send(picture);
   };
 
-  window.backend = {
+  window.client = {
     load: load,
     save: save
   };
