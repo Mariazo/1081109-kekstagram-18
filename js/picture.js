@@ -1,6 +1,6 @@
 'use strict';
 
-(function() {
+(function () {
   var PICTURES_COUNT = 25;
   var MIN_LIKES_COUNT = 15;
   var MAX_LIKES_COUNT = 200;

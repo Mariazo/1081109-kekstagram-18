@@ -41,7 +41,7 @@
     xhr.timeout = 1000;
 
     xhr.open('POST', URL);
-    xhr.send(picture);
+    xhr.send(data);
   };
 
   window.client = {
