@@ -4,7 +4,6 @@
   var PICTURES_COUNT = 25;
   var MIN_LIKES_COUNT = 15;
   var MAX_LIKES_COUNT = 200;
-  var uploadedImages = [];
 
   // Генерация массива из объектов фотографий
   var getPictureList = function () {
@@ -52,10 +51,10 @@
 
   setPictures();
 
-  var photoData = [];
+var photoData = [];
    for (var i = 0; i < PICTURES_COUNT; i++) {
-     photoData.push(getPictureList(i));
-   }
+    photoData.push(getPictureList(i));
+  }
 
-    window.photoData = photoData;
+  window.photoData = photoData;
 })();
