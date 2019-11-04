@@ -52,15 +52,10 @@
 
   setPictures();
 
-  var onLoadPicture = function (images) {
-    window.data.uploadedImages = images;
-    renderPictureList(images);
-  };
+  var photoData = [];
+   for (var i = 0; i < PICTURES_COUNT; i++) {
+     photoData.push(getPictureList(i));
+   }
 
-  window.client.load(onLoadPicture);
-
-  window.data = {
-    uploadedImages: uploadedImages,
-    renderPictureList: renderPictureList
-  };
+    window.photoData = photoData;
 })();
