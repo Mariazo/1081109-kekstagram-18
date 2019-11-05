@@ -50,4 +50,11 @@
   }
 
   setPictures();
+
+  var photoData = [];
+  for (var i = 0; i < PICTURES_COUNT; i++) {
+    photoData.push(getPictureList(i));
+  }
+
+  window.photoData = photoData;
 })();
