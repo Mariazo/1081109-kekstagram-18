@@ -1,3 +1,5 @@
+'use strict';
+
 (function () {
   var PICTURE_FILTERS = {
     'filter-popular': function (arr) {
@@ -44,7 +46,7 @@
     }, 500);
   };
 
-  function createElements (arrElements) {
+  function createElements(arrElements) {
     var deletedItems = window.pictures.querySelectorAll('a.picture');
     var sortedArr = arrElements.slice(0);
 
