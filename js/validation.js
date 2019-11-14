@@ -2,7 +2,9 @@
 
 (function () {
   // ВАЛИДАЦИЯ ХЕШТЕГОВ
-
+  var COMMENTS_MAX_LENGTH = 140;
+  var HASHTAG_MAX_LENGTH = 20;
+  var MAX_HASHTAG = 5;
   var HASHTAG_ERRORS = {
     'symbol': 'Отсутствует обязательный символ #',
     'symbol_wrong': 'Символ # должен стоять в начале хештега',
@@ -13,25 +15,20 @@
   };
 
   var inputHashtags = document.querySelector('.text__hashtags');
+  var inputComments = document.querySelector('.text__description');
 
-  inputHashtags.addEventListener('change', function () {
-    var hashtagsArr = inputHashtags.value.split(' ');
-    var errorCode = checkHashtag(hashtagsArr);
 
-    if (errorCode !== '') {
-      inputHashtags.setCustomValidity(HASHTAG_ERRORS[errorCode]);
-    } else {
-      inputHashtags.setCustomValidity(errorCode);
-    }
-  });
+  inputHashtags.addEventListener('keydown', function (evt) {
+     evt.stopPropagation();
+   });
 
   function checkHashtag(array) {
-    if (array.length > 5) {
+    if (array.length > MAX_HASHTAG) {
       return 'max';
     }
 
     for (var k = 0; k < array.length; k++) {
-      if (array[k].length > 20) {
+      if (array[k].length > HASHTAG_MAX_LENGTH) {
         return 'maxLength';
       }
       if (array[k].indexOf('#') < 0) {
@@ -52,12 +49,35 @@
 
     return '';
   }
+
+  inputHashtags.addEventListener('change', function () {
+    var hashtagsArr = inputHashtags.value.split(' ');
+    var newHashtagsArr = [];
+
+    hashtagsArr.forEach(function (tag) {
+      if (tag && tag.length > 0) {
+        newHashtagsArr.push(tag);
+      }
+    });
+
+    var errorCode = checkHashtag(newHashtagsArr);
+
+    if (errorCode !== '') {
+      inputHashtags.setCustomValidity(HASHTAG_ERRORS[errorCode]);
+    } else {
+      inputHashtags.setCustomValidity(errorCode);
+    }
+  });
+
   // Добавление комментария к изображению
-  var inputComments = document.querySelector('.text__description');
+
+  inputComments.addEventListener('keydown', function (evt) {
+    evt.stopPropagation();
+  });
 
   inputComments.addEventListener('change', function () {
     var str = inputComments.value;
-    if (str.length > 140) {
+    if (str.length > COMMENTS_MAX_LENGTH) {
       inputComments.setCustomValidity('Комментарий не должен превышать 140 символов');
     } else {
       inputComments.setCustomValidity('');
