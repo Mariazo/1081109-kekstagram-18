@@ -19,8 +19,8 @@
 
 
   inputHashtags.addEventListener('keydown', function (evt) {
-     evt.stopPropagation();
-   });
+    evt.stopPropagation();
+  });
 
   function checkHashtag(array) {
     if (array.length > MAX_HASHTAG) {
