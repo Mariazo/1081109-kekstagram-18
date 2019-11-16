@@ -92,6 +92,9 @@
       var picture = imageUploadPreview.querySelector('img');
       picture.removeAttribute('class');
 
+      if (FILTERS[filterName]) {
+        picture.classList.add(FILTERS[filterName]);
+      };
       if (filterName === 'effect-none') {
         imageUploadPreview.classList.add('effects__preview--none');
         effectLevel.style.display = 'none';
