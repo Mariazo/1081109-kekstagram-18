@@ -1,86 +1,103 @@
 'use strict';
 
 (function () {
-  // ВАЛИДАЦИЯ ХЕШТЕГОВ
-  var COMMENTS_MAX_LENGTH = 140;
-  var HASHTAG_MAX_LENGTH = 20;
-  var MAX_HASHTAG = 5;
-  var HASHTAG_ERRORS = {
-    'symbol': 'Отсутствует обязательный символ #',
-    'symbol_wrong': 'Символ # должен стоять в начале хештега',
-    'max': 'Максимальное кол-во хештегов должно быть 5',
-    'same': 'Есть повторяющиеся хештеги',
-    'maxLength': 'Слишком длинный хештег',
-    'space': 'Хэштеги должны быть разделены пробелом'
-  };
+  // хэш-тэги
+  var MAX_TAGS = 5;
+  var DESCRIPTION_MAX_LENGTH = 140;
+  var tagsField = document.querySelector('.text__hashtags');
+  var commentsField = window.photoEditor.querySelector('.text__description');
+  var successPageTemplate = document.querySelector('#success').content
+  .querySelector('.success');
+  var waitMessageTemplate = document.querySelector('#messages').content
+  .querySelector('.img-upload__message');
 
-  var inputHashtags = document.querySelector('.text__hashtags');
-  var inputComments = document.querySelector('.text__description');
-
-
-  inputHashtags.addEventListener('keydown', function (evt) {
-    evt.stopPropagation();
-  });
-
-  function checkHashtag(array) {
-    if (array.length > MAX_HASHTAG) {
-      return 'max';
-    }
-
-    for (var k = 0; k < array.length; k++) {
-      if (array[k].length > HASHTAG_MAX_LENGTH) {
-        return 'maxLength';
-      }
-      if (array[k].indexOf('#') < 0) {
-        return 'symbol';
-      }
-      if (array[k].indexOf('#') > 0) {
-        return 'symbol_wrong';
-      }
-      if (array[k].slice(1).includes('#')) {
-        return 'space';
-      }
-      for (var j = 0; j < array.length; j++) {
-        if ((array[k].toLowerCase() === array[j].toLowerCase()) && (k !== j)) {
-          return 'same';
+  // функция валидации тэгов
+  var validateTags = function (arr, textInput) {
+    textInput.style.outline = 'none';
+    textInput.setCustomValidity('');
+    for (var x = 0; x < arr.length; x++) {
+      for (var y = x + 1; y < arr.length; y++) {
+        if (arr[x] === arr[y]) {
+          textInput.setCustomValidity('Хэш-тэги не должны повторяться');
+          textInput.style.outline = 'thick solid red';
         }
       }
-    }
-
-    return '';
-  }
-
-  inputHashtags.addEventListener('change', function () {
-    var hashtagsArr = inputHashtags.value.split(' ');
-    var newHashtagsArr = [];
-
-    hashtagsArr.forEach(function (tag) {
-      if (tag && tag.length > 0) {
-        newHashtagsArr.push(tag);
+      if (arr[x] === '#') {
+        textInput.style.outline = '2px solid red';
+        textInput.setCustomValidity('Хэш-тэг не должен состоять только из символа #');
+      } if (arr[x].length > 20) {
+        textInput.style.outline = '2px solid red';
+        textInput.setCustomValidity('Хэш-тэг не должен быть длиннее 20 символов, включая #');
+      } if (arr[x].charAt(0) !== '#') {
+        textInput.style.outline = '2px solid red';
+        textInput.setCustomValidity('Хэш-тэг должен начинаться с символа #');
+      } if (arr[x] === ' ') {
+        textInput.style.outline = '2px solid red';
+        textInput.setCustomValidity('Хэш-тэги должны разделяться только одним пробелом');
       }
-    });
-
-    var errorCode = checkHashtag(newHashtagsArr);
-
-    if (errorCode !== '') {
-      inputHashtags.setCustomValidity(HASHTAG_ERRORS[errorCode]);
-    } else {
-      inputHashtags.setCustomValidity(errorCode);
     }
-  });
-
-  // Добавление комментария к изображению
-
-  inputComments.addEventListener('keydown', function (evt) {
-    evt.stopPropagation();
-  });
-
-  inputComments.addEventListener('change', function () {
-    var str = inputComments.value;
-    if (str.length > COMMENTS_MAX_LENGTH) {
-      inputComments.setCustomValidity('Комментарий не должен превышать 140 символов');
-    } else {
-      inputComments.setCustomValidity('');
+    if (arr.length > MAX_TAGS) {
+      textInput.style.outline = '2px solid red';
+      textInput.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
     }
-  });
+  };
+
+  var tagsList = [];
+  tagsField.addEventListener('change', function () {
+    tagsList = tagsField.value.toLocaleLowerCase().split(' ');
+    validateTags(tagsList, tagsField);
+  }
+  );
+
+  // валидация комментария
+  var onCommentsFieldChange = function () {
+    commentsField.setCustomValidity('');
+    if (commentsField.value.length > DESCRIPTION_MAX_LENGTH) {
+      commentsField.style.outline = '2px solid red';
+      commentsField.setCustomValidity('Длина комментария не может составлять больше 140 символов');
+    }
+  };
+  commentsField.addEventListener('change', onCommentsFieldChange);
+
+  // окно  сообщения об ожидании завершения отправки
+  window.showWaitMessageBlock = function () {
+    var fragmentWaitMessageBlock = document.createDocumentFragment();
+    var waitingMessage = waitMessageTemplate.cloneNode(true);
+    fragmentWaitMessageBlock.appendChild(waitingMessage);
+    document.querySelector('main').appendChild(fragmentWaitMessageBlock);
+  };
+
+  // сообщение об успешной загрузке фотографии
+  var onSuccessCloseButtonClick = function () {
+    document.querySelector('.success__button').removeEventListener('click', onSuccessCloseButtonClick);
+    document.querySelector('.success').remove();
+    window.uploadPhotoForm.reset();
+  };
+  var onSuccessBlockEsc = function (evt) {
+    if (evt.keyCode === window.generalData.ESC_KEYCODE) {
+      document.querySelector('.success').remove();
+      window.uploadPhotoForm.reset();
+      document.removeEventListener('keydown', onSuccessBlockEsc);
+    }
+  };
+  var onSuccessBlockDocumentClick = function (evt) {
+    if (document.contains(document.querySelector('.success')) && evt.target !== document.querySelector('.success__inner')) {
+      document.querySelector('.success').remove();
+      window.uploadPhotoForm.reset();
+      document.removeEventListener('click', onSuccessBlockDocumentClick);
+    }
+  };
+  // отображение сообщения об успешной загрузке
+  window.uploadPhotoSuccessfully = function () {
+    document.querySelector('.img-upload__overlay').classList.add('hidden');
+    document.querySelector('.img-upload__message--loading').remove();
+    var fragmentSuccessPage = document.createDocumentFragment();
+    var successPage = successPageTemplate.cloneNode(true);
+    fragmentSuccessPage.appendChild(successPage);
+    document.querySelector('main').appendChild(fragmentSuccessPage);
+
+    document.querySelector('.success__button').addEventListener('click', onSuccessCloseButtonClick);
+    document.addEventListener('keydown', onSuccessBlockEsc);
+    document.addEventListener('click', onSuccessBlockDocumentClick);
+  };
 })();
