@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+
   // хэш-тэги
   var MAX_TAGS = 5;
   var DESCRIPTION_MAX_LENGTH = 140;
